@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My RSS Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Start</h1>
+  <nav>
+    <a href="#" class="tab" data-tab="podcasts">podcasts</a>
+    <a href="#" class="tab" data-tab="blogs">blogs</a>
+    <a href="#" class="tab active" data-tab="education">education</a>
+    <a href="#" class="tab" data-tab="news">news</a>
+    <a href="#" class="tab" data-tab="misc">misc</a>
+  </nav>
+
+  <div class="content active" id="education">
+    <h2>education</h2>
+    <details>
+      <summary>Physics Short Notes</summary>
+      <ul>
+        <li><a href="#">Video 1</a></li>
+        <li><a href="#">Article 2</a></li>
+      </ul>
+    </details>
+    <details>
+      <summary>JEE Nexus One-Shots</summary>
+      <ul>
+        <li><a href="#">One-Shot 1</a></li>
+        <li><a href="#">One-Shot 2</a></li>
+      </ul>
+    </details>
+  </div>
+
+  <div class="content" id="podcasts">
+    <h2>podcasts</h2>
+    <details>
+      <summary>Lex Fridman Podcast</summary>
+      <ul id="lex-feed"></ul>
+      <a href="https://www.youtube.com/@lexfridman" target="_blank">view more »</a>
+    </details>
+  </div>
+
+  <div class="content" id="blogs"><h2>blogs</h2></div>
+  <div class="content" id="news"><h2>news</h2></div>
+  <div class="content" id="misc"><h2>misc</h2></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
