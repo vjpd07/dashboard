@@ -9,12 +9,44 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
-// Fetch Lex Fridman RSS feed via rss2json API
-fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCSHZKyawb77ixDdsGog4iWA')
-  .then(res => res.json())
-  .then(data => {
-    const feed = data.items.slice(0, 5).map(item =>
-      `<li><span class="date">»${item.pubDate.split(' ')[0]}</span><a href="\${item.link}" target="_blank">\${item.title}</a></li>`
-    ).join('');
-    document.getElementById('lex-feed').innerHTML = feed;
+async function fetchRSSFeed(rssUrl) {
+  const proxyUrl = 'https://rss-proxy.cloudflare-washed317.workers.dev/'; // replace with your actual Worker URL
+  const finalUrl = `${proxyUrl}?url=${encodeURIComponent(rssUrl)}`;
+
+  try {
+    const response = await fetch(finalUrl);
+    const text = await response.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, "application/xml");
+
+    const items = Array.from(xml.querySelectorAll("item")).slice(0, 5); // only last 5
+    return items.map(item => ({
+      title: item.querySelector("title")?.textContent,
+      link: item.querySelector("link")?.textContent
+    }));
+  } catch (error) {
+    console.error("Failed to fetch RSS feed:", error);
+    return [];
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  const lexFeedUrl = "https://lexfridman.com/feed/podcast/";
+  const feedItems = await fetchRSSFeed(lexFeedUrl);
+
+  const lexContainer = document.getElementById("lex-fridman-feed");
+  feedItems.forEach(item => {
+    const link = document.createElement("a");
+    link.href = item.link;
+    link.textContent = item.title;
+    link.target = "_blank";
+    link.style.display = "block";
+    lexContainer.appendChild(link);
   });
+
+  const moreLink = document.createElement("a");
+  moreLink.href = "https://www.youtube.com/@lexfridman";
+  moreLink.textContent = "View more »";
+  moreLink.target = "_blank";
+  lexContainer.appendChild(moreLink);
+});
