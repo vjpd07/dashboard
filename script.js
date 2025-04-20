@@ -9,44 +9,31 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
-async function fetchRSSFeed(rssUrl) {
-  const proxyUrl = 'https://rss-proxy.cloudflare-washed317.workers.dev/'; // replace with your actual Worker URL
-  const finalUrl = `${proxyUrl}?url=${encodeURIComponent(rssUrl)}`;
-
+async function populateFeed(feedId, rssUrl) {
+  const proxyUrl = "https://rss-proxy.yourname.workers.dev";
+  const target = `${proxyUrl}?url=${encodeURIComponent(rssUrl)}`;
   try {
-    const response = await fetch(finalUrl);
-    const text = await response.text();
+    const res = await fetch(target);
+    const text = await res.text();
     const parser = new DOMParser();
     const xml = parser.parseFromString(text, "application/xml");
-
-    const items = Array.from(xml.querySelectorAll("item")).slice(0, 5); // only last 5
-    return items.map(item => ({
-      title: item.querySelector("title")?.textContent,
-      link: item.querySelector("link")?.textContent
-    }));
-  } catch (error) {
-    console.error("Failed to fetch RSS feed:", error);
-    return [];
+    const items = Array.from(xml.querySelectorAll("item")).slice(0, 5);
+    const list = document.getElementById(feedId);
+    list.innerHTML = items.map(item => {
+      const title = item.querySelector("title").textContent;
+      const link = item.querySelector("link").textContent;
+      const date = new Date(item.querySelector("pubDate").textContent).toISOString().split("T")[0];
+      return `<li><span class="date">»${date}</span><a href="${link}" target="_blank">${title}</a></li>`;
+    }).join('');
+  } catch (err) {
+    console.error(`Error fetching ${rssUrl}`, err);
   }
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const lexFeedUrl = "https://lexfridman.com/feed/podcast/";
-  const feedItems = await fetchRSSFeed(lexFeedUrl);
-
-  const lexContainer = document.getElementById("lex-fridman-feed");
-  feedItems.forEach(item => {
-    const link = document.createElement("a");
-    link.href = item.link;
-    link.textContent = item.title;
-    link.target = "_blank";
-    link.style.display = "block";
-    lexContainer.appendChild(link);
-  });
-
-  const moreLink = document.createElement("a");
-  moreLink.href = "https://www.youtube.com/@lexfridman";
-  moreLink.textContent = "View more »";
-  moreLink.target = "_blank";
-  lexContainer.appendChild(moreLink);
+// Example calls:
+document.addEventListener("DOMContentLoaded", () => {
+  populateFeed("lex-fridman-feed", "https://lexfridman.com/feed/podcast/");
+  populateFeed("huberman-feed", "https://hubermanlab.com/feed");
+  populateFeed("paulgraham-feed", "http://www.aaronsw.com/2002/feeds/pgessays.rss");
+  populateFeed("substack-feed", "https://your-substack.substack.com/feed");
 });

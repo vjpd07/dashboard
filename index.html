@@ -7,6 +7,37 @@
 </head>
 <body>
   <h1>Start</h1>
+  <form 
+  action="https://exa.ai/search" 
+  method="GET" 
+  target="_blank" 
+  style="
+    width: 100vw;
+    display: flex;
+    justify-content: flex start;
+    margin: 2rem 0;
+  "
+>
+  <input 
+    type="text" 
+    name="q" 
+    placeholder="Search with Exa..." 
+    style="
+      font-family: 'Envy Code R', monospace;
+      width: 90%;
+      max-width: 800px;
+      padding: 1rem 1.5rem;
+      font-size: 1.1rem;
+      border: 2px solid #ff88e3;
+      border-radius: 999px;
+      background-color: #000;
+      color: #fff;
+      outline: none;
+      box-shadow: 0 0 10px rgba(255, 136, 227, 0.2);
+    "
+  />
+</form>
+
   <nav>
     <a href="#" class="tab active" data-tab="bookmarks">bookmarks</a>
     <a href="#" class="tab" data-tab="podcasts">podcasts</a>
@@ -18,19 +49,26 @@
   <div class="content active" id="bookmarks">
     <h2>bookmarks</h2>
     <details>
-      <summary>Tools & AI</summary>
+      <summary>AI</summary>
       <ul>
         <li><a href="https://claude.ai/" target="_blank">Claude</a></li>
         <li><a href="https://chat.openai.com/" target="_blank">ChatGPT</a></li>
         <li><a href="https://grok.x.ai/" target="_blank">Grok</a></li>
       </ul>
     </details>
-  
+    <details>
+      <summary>Comms</summary>
+      <ul>
+        <li><a href="https://mail.proton.me/u/0/inbox" target="_blank">Mail</a></li>
+        <li><a href="https://web.whatsapp.com" target="_blank">Whatsapp</a></li>
+      </ul>
+    </details>
     <details>
       <summary>Study Platforms</summary>
       <ul>
-        <li><a href="https://mathongo.com/" target="_blank">Mathongo</a></li>
-        <li><a href="https://www.quizzr.in/" target="_blank">Quizzr</a></li>
+        <li><a href="https://app.mathongo.com/course?enrolled=true&course=67ef804b7ddf188aaa925e5f&subject=67ef81b7f8141689fb7d5bd1" target="_blank">Mathongo</a></li>
+        <li><a href="https://app.quizrr.in/v2/home" target="_blank">Quizzr</a></li>
+        <li><a href="https://web.getmarks.app/cpyqb/exam/61a8a124e8ce0dc8a5c62d2c" target="_blank">Marksapp</a></li>
       </ul>
     </details>
   </div>
@@ -56,6 +94,14 @@
     <h2>podcasts</h2>
     <details>
       <summary>Lex Fridman Podcast</summary>
+      <div id="lex-fridman-feed"></div>
+    </details>
+    <details>
+      <summary>TBPN</summary>
+      <div id="lex-fridman-feed"></div>
+    </details>
+    <details>
+      <summary>Dwarkesh Patel</summary>
       <div id="lex-fridman-feed"></div>
     </details>
   </div>
